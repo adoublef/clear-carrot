@@ -16,6 +16,16 @@ func init() {
 	IndexPage = template.Must(template.ParseFS(indexFS, "index.html"))
 }
 
+/* 
+
+var (
+	Index iota
+)
+
+type Templates struct {}
+
+*/
+
 // const (
 // 	layoutsDir   = "templates/layouts"
 // 	templatesDir = "templates"
@@ -50,3 +60,5 @@ func init() {
 // 		templates[tmpl.Name()] = pt
 // 	}
 // }
+
+// func handle(responseWriter, data, code)

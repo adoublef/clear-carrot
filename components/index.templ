@@ -1,0 +1,46 @@
+package components
+
+import "strconv"
+
+templ Index(name string, global, user int) {
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8" />
+            <title>go:embed demo</title>
+            <link rel="stylesheet" href="/static/index.css" />
+            <script src="/static/htmx.min.js" defer></script>
+            <script src="/static/hyperscript.min.js" defer></script>
+        </head>
+
+        <body>
+            <header>
+                <p>If you see this, then go:embed worked!</p>
+                <div>Hello, { name }!</div>
+            </header>
+            <main>
+                @counts(global, user)
+                @form()
+            </main>
+        </body>
+    </html>
+}
+
+templ form() {
+    <form action="/" method="POST">
+        <div>
+            <button type="submit" name="global" value="global">
+                Global
+            </button>
+        </div>
+        <div>
+            <button type="submit" name="user" value="user">
+                User
+            </button>
+        </div>
+    </form>
+}
+
+templ counts(global, user int) {
+    <div>Global: { strconv.Itoa(global) }</div>
+    <div>User: { strconv.Itoa(user) }</div>
+}

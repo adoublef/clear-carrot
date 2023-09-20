@@ -10,6 +10,7 @@ import (
 	"time"
 
 	service "github.com/adoublef/clear-carrot/http"
+	"github.com/adoublef/clear-carrot/static"
 	"github.com/go-chi/chi/v5"
 )
 
@@ -36,6 +37,7 @@ func run(ctx context.Context) (err error) {
 		srv := service.NewService()
 		mux.Mount("/", srv)
 	}
+	mux.Handle("/static/*", &static.Static{Prefix: "/static/"})
 
 	s := http.Server{
 		Addr:         ":8000",
