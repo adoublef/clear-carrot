@@ -1,7 +1,9 @@
 package http
 
 import (
+	"fmt"
 	"net/http"
+	"strconv"
 
 	g "github.com/maragudk/gomponents"
 	hx "github.com/maragudk/gomponents-htmx"
@@ -35,18 +37,42 @@ func Page(title, currentPath string) g.Node {
 				Navbar(currentPath),
 				H1(g.Text(title)),
 				P(g.Textf("Welcome to the page at %v.", currentPath)),
+				Counter(0),
 			),
 		),
 	)
 }
 
 func Navbar(currentPath string) g.Node {
-	return Nav(hx.Boost("true"),
-		NavbarLink("/", "Home", currentPath),
-		NavbarLink("/about", "About", currentPath),
-	)
+	a := func(href, name, currentPath string) g.Node {
+		return A(Href(href), c.Classes{"is-active": currentPath == href}, g.Text(name))
+	}
+
+	return Nav(hx.Boost("true"), a("/", "Home", currentPath), a("/about", "About", currentPath))
 }
 
-func NavbarLink(href, name, currentPath string) g.Node {
-	return A(Href(href), c.Classes{"is-active": currentPath == href}, g.Text(name))
+func (s *Service) handleCount() http.HandlerFunc {
+	parseInt := func(r *http.Request) int {
+		count := r.URL.Query().Get("count")
+		if count == "" {
+			count = "0"
+		}
+		n, _ := strconv.Atoi(count)
+
+		return n
+	}
+
+	return func(w http.ResponseWriter, r *http.Request) {
+		err := Counter(parseInt(r)).Render(w)
+		if err != nil {
+			http.Error(w, "error parsing counter template: "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+}
+
+func Counter(count int) g.Node {
+	postUrl := fmt.Sprintf("/?count=%d", count+1)
+	return Span(g.Textf("%d", count),
+		Button(g.Text("click"), hx.Post(postUrl), hx.Target("closest span"), hx.Swap("outerHTML")))
 }
