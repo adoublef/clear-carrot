@@ -2,5 +2,10 @@ version: '3'
 
 tasks:
   run:
+    # deps: [htmx]
     cmds:
       - go run ./cmd/clear-carrot/
+  htmx:
+    cmds:
+      - curl -L -o static/htmx.min.js https://unpkg.com/htmx.org@latest/dist/htmx.min.js
+      - curl -L -o static/hyperscript.min.js https://unpkg.com/hyperscript.org@latest/dist/_hyperscript.min.js
