@@ -1,0 +1,6 @@
+github.com/a-h/templ v0.2.334 h1:/mKupkgHGeSSeC0KiGRvmUoRGQJuku9VGVhRP1CeWgY=
+github.com/a-h/templ v0.2.334/go.mod h1:6Lfhsl3Z4/vXl7jjEjkJRCqoWDGjDnuKgzjYMDSddas=
+github.com/maragudk/gomponents v0.20.1 h1:TeJY1fXEcfUvzmvjeUgxol42dvkYMggK1c0V67crWWs=
+github.com/maragudk/gomponents v0.20.1/go.mod h1:nHkNnZL6ODgMBeJhrZjkMHVvNdoYsfmpKB2/hjdQ0Hg=
+github.com/maragudk/gomponents-htmx v0.3.0 h1:TOTeMnRzW4ZwFWtgSy0n34iqxgKNSFpP/DI20OTCjeQ=
+github.com/maragudk/gomponents-htmx v0.3.0/go.mod h1:XgI7WE6ECWlyeVQ9Ix3R6aoKS4HtCSYtuQ4iH27GVDE=
