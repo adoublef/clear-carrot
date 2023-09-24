@@ -20,8 +20,8 @@ func (s *Service) handleIndex() http.HandlerFunc {
 			Header(Nav(
 				A(Href("/"), g.Text("home")),
 				Ul(
-					Li(A(Href("/signin"), g.Text(("signin")))),
-					Li(A(Href("/signout"), g.Text(("signout")))),
+					Li(A(Href("/"), g.Text(("signin")))),
+					Li(A(Href("/"), g.Text(("signout")))),
 					// Li(A(Href("/settings"),g.Text(("settings")))),
 				),
 			)),
