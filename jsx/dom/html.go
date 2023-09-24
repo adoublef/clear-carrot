@@ -4,14 +4,13 @@ import (
 	"io"
 	"net/url"
 
+	"github.com/adoublef/clear-carrot/jsx"
 	g "github.com/maragudk/gomponents"
 	hx "github.com/maragudk/gomponents-htmx"
-	"github.com/maragudk/gomponents/html"
+	. "github.com/maragudk/gomponents/html"
 )
 
-type Renderer interface {
-	Render (w io.Writer, children ...g.Node) error
-}
+var _ jsx.Renderer = (*Html)(nil)
 
 // Html struct
 type Html struct {
@@ -25,19 +24,20 @@ func (h *Html) Render(w io.Writer, children ...g.Node) error {
 
 func htmx(title string, baseUrl *url.URL, children ...g.Node) g.Node {
 	children = append(children, hx.Boost("true"))
-	return html.Doctype(
-		html.HTML(
-			html.Lang("en"),
-			html.Head(
-				html.Meta(html.Charset("utf-8")),
+	return Doctype(
+		HTML(
+			Lang("en"),
+			Head(
+				Meta(Charset("utf-8")),
+				Meta(Name("viewport"), Content("width=device-width, initial-scale=1")),
+				TitleEl(g.Text(title)),
 				// baseUrl
-				html.TitleEl(g.Text(title)),
-				// link script
-				html.Script(html.Src("/static/htmx.min.js"), html.Defer()),
-				// link script
-				html.Script(html.Src("/static/hyperscript.min.js"), html.Defer()),
+				Link(Rel("preload"), As("script"), Href("/static/htmx.min.js")),
+				Script(Src("/static/htmx.min.js"), Defer()),
+				Link(Rel("preload"), As("script"), Href("/static/hyperscript.min.js")),
+				Script(Src("/static/hyperscript.min.js"), Defer()),
 			),
-			html.Body(children...),
+			Body(children...),
 		),
 	)
 }
