@@ -26,5 +26,8 @@ func NewService() *Service {
 }
 
 func (s *Service) routes() {
-	s.m.Get("/*", s.handleIndex())
+	s.m.Get("/", s.handleIndex())
+	// s.m.Get("/signin", s.handleSignIn())
+	// s.m.Get("/signout", s.handleSignOut())
+	// s.m.Get("/callback", s.handleCallback())
 }
