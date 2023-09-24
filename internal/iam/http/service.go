@@ -27,5 +27,4 @@ func NewService() *Service {
 
 func (s *Service) routes() {
 	s.m.Get("/*", s.handleIndex())
-	s.m.Post("/", s.handleCount())
 }
