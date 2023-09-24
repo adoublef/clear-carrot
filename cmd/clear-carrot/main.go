@@ -9,7 +9,7 @@ import (
 	"syscall"
 	"time"
 
-	service "github.com/adoublef/clear-carrot/http"
+	service "github.com/adoublef/clear-carrot/internal/iam/http"
 	"github.com/adoublef/clear-carrot/static"
 	"github.com/go-chi/chi/v5"
 )
