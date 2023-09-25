@@ -1,37 +1,27 @@
-package postgres
+package cockroachdb
 
 import (
 	"context"
 	"database/sql"
 	"path/filepath"
 	"testing"
-	"time"
 
 	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/assert"
-
 	"github.com/testcontainers/testcontainers-go"
-	"github.com/testcontainers/testcontainers-go/modules/postgres"
 	"github.com/testcontainers/testcontainers-go/wait"
 )
 
-const (
-	dbname   = "test-db"
-	user     = "postgres"
-	password = "password"
-)
 
 func TestWithInitScript(t *testing.T) {
 	ctx := context.Background()
 
-	container, err := postgres.RunContainer(ctx,
-		testcontainers.WithImage("docker.io/postgres:15.2-alpine"),
-		postgres.WithInitScripts(filepath.Join("testdata", "init.sql")),
-		postgres.WithDatabase(dbname),
-		postgres.WithUsername(user),
-		postgres.WithPassword(password),
+	container, err := RunContainer(ctx,
+		// testcontainers.WithImage("docker.io/postgres:15.2-alpine"),
+		WithInitScripts(filepath.Join("testdata", "init.sql")),
 		testcontainers.WithWaitStrategy(
-			wait.ForLog("database system is ready to accept connections").WithOccurrence(2).WithStartupTimeout(5*time.Second)),
+			wait.ForHTTP("/health").WithPort("8080")),
+			// wait.ForLog("database system is ready to accept connections").WithOccurrence(2).WithStartupTimeout(5*time.Second)),
 	)
 	if err != nil {
 		t.Fatal(err)
