@@ -3,6 +3,17 @@ version: '3'
 tasks:
   run:
     cmd: go run ./cmd/clear-carrot/
+
+  build:
+    cmds: 
+      - docker build . -t clear-carrot
+      - docker run --rm -d -p 0:8000 clear-carrot
+
+  tidy:
+    cmds:
+      - go mod tidy
+      - go fmt ./...
+    silent: true
   
   htmx:
     cmds:
