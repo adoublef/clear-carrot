@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -12,6 +13,7 @@ import (
 	service "github.com/adoublef/clear-carrot/internal/iam/http"
 	"github.com/adoublef/clear-carrot/static"
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/httplog"
 )
 
 func main() {
@@ -33,6 +35,8 @@ func main() {
 
 func run(ctx context.Context) (err error) {
 	mux := chi.NewMux()
+	logger := newLogger(AppName)
+	mux.Use(httplog.RequestLogger(logger))
 	{
 		srv := service.NewService()
 		mux.Mount("/", srv)
@@ -40,11 +44,14 @@ func run(ctx context.Context) (err error) {
 	mux.Handle("/static/*", &static.Static{Prefix: "/static/"})
 
 	s := http.Server{
-		Addr:         ":8000",
+		Addr:         ":"+Port,
 		Handler:      mux,
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
 		IdleTimeout:  15 * time.Second,
+		BaseContext: func(l net.Listener) context.Context {
+			return ctx
+		},
 	}
 
 	sErr := make(chan error, 1)
