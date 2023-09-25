@@ -23,8 +23,8 @@ func init() {
 }
 
 func newLogger(serviceName string) zerolog.Logger {
-	return httplog.NewLogger(serviceName, httplog.Options{ Concise: true})	
-} 
+	return httplog.NewLogger(serviceName, httplog.Options{Concise: true})
+}
 
 var (
 	ErrStartServer    = errors.New("failed to start server")

@@ -44,7 +44,7 @@ func run(ctx context.Context) (err error) {
 	mux.Handle("/static/*", &static.Static{Prefix: "/static/"})
 
 	s := http.Server{
-		Addr:         ":"+Port,
+		Addr:         ":" + Port,
 		Handler:      mux,
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
@@ -60,15 +60,15 @@ func run(ctx context.Context) (err error) {
 	}()
 
 	select {
-	case err :=<-sErr:
+	case err := <-sErr:
 		return fmt.Errorf("main error: starting server: %w", err)
-	case <- ctx.Done():
+	case <-ctx.Done():
 		const timeout = 5 * time.Second
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
 		defer cancel()
 
-		err := s.Shutdown(ctx);
-		if  err != nil {
+		err := s.Shutdown(ctx)
+		if err != nil {
 			err = s.Close()
 		}
 

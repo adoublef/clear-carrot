@@ -1,12 +1,15 @@
 package jsx
 
 import (
-	"io"
+	"net/http"
 
 	g "github.com/maragudk/gomponents"
 )
 
-
-type Renderer interface {
-	Render (w io.Writer, children ...g.Node) error
+func Render(w http.ResponseWriter, n g.Node) {
+	err := n.Render(w)
+	if err != nil {
+		http.Error(w, "error writing template", http.StatusInternalServerError)
+		return
+	}
 }
