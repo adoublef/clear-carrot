@@ -41,7 +41,7 @@ func (c *CockroachDBContainer) ConnectionString(ctx context.Context, args ...str
 	}
 
 	extraArgs := strings.Join(args, "&")
-	connStr := fmt.Sprintf("postgres://%s:%s@%s/%s?%s", c.user, c.password, net.JoinHostPort(host, containerPort.Port()), c.dbName, extraArgs)
+	connStr := fmt.Sprintf("postgres://%s:%s@%s/?%s", c.user, c.password, net.JoinHostPort(host, containerPort.Port()),  extraArgs)
 	return connStr, nil
 }
 
