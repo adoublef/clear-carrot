@@ -3,6 +3,7 @@ package http
 import (
 	"net/http"
 
+	"github.com/adoublef/clear-carrot/jsx"
 	"github.com/adoublef/clear-carrot/jsx/dom"
 	g "github.com/maragudk/gomponents"
 	. "github.com/maragudk/gomponents/html"
@@ -11,12 +12,12 @@ import (
 
 func (s *Service) handleIndex() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		page := &dom.Html{
-			Title:   "Golang 💛 Htmx",
+		props := dom.HtmlProps{
+			Title:   "Hello World!",
 			BaseURL: r.URL,
 		}
 
-		err := page.Render(w,
+		doc := dom.Html(props,
 			Header(Nav(
 				A(Href("/"), g.Text("home")),
 				Ul(
@@ -26,9 +27,7 @@ func (s *Service) handleIndex() http.HandlerFunc {
 				),
 			)),
 			Main())
-		if err != nil {
-			http.Error(w, "error parsing template: "+err.Error(), http.StatusInternalServerError)
-			return
-		}
+
+		jsx.Render(w, doc)
 	}
 }
