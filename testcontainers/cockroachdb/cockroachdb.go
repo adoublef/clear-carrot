@@ -72,6 +72,15 @@ func RunContainer(ctx context.Context, opts ...testcontainers.ContainerCustomize
 		},
 		ExposedPorts: []string{"26257/tcp", "8080/tcp"},
 		Cmd:          []string{"start-single-node", "--insecure"},
+		// NOTE -- for demo purposes only
+		Mounts: testcontainers.ContainerMounts{
+			{
+				Source: testcontainers.GenericVolumeMountSource{
+					Name: "cockroach-data",
+				},
+				Target: "/cockroach/cockroach-data",
+			},
+		},
 	}
 
 	genericContainerReq := testcontainers.GenericContainerRequest{
